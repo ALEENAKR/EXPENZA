@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expenza Report</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .filter-section {
+            margin: 20px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .filter-section select {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .chart-container {
+            position: relative;
+            margin: 20px 0;
+            height: 400px;
+            width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .back-button {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background-color: #ed0e0e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Expenza Report</h1>
+
+        <div class="filter-section">
+            <label for="time-filter">Filter by:</label>
+            <select id="time-filter">
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+            </select>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="report-chart"></canvas>
+        </div>
+
+        <h2>Detailed Report</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody id="report-table-body">
+                <!-- Dynamic rows will be added here -->
+            </tbody>
+        </table>
+
+        <a href="home.html" class="back-button">Back</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const ctx = document.getElementById('report-chart').getContext('2d');
+            const tableBody = document.getElementById('report-table-body');
+            const timeFilter = document.getElementById('time-filter');
+
+            let dataEntries = [];
+            let chart;
+
+            const updateTable = () => {
+                tableBody.innerHTML = '';
+                dataEntries.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${item.date}</td>
+                        <td>${item.category}</td>
+                        <td>${item.description}</td>
+                        <td>$${item.amount.toFixed(2)}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            };
+
+            const updateChart = () => {
+                const labels = dataEntries.map(item => item.date);
+                const savingsData = dataEntries.filter(item => item.category === 'Savings').map(item => item.amount);
+                const expenseData = dataEntries.filter(item => item.category === 'Expense').map(item => item.amount);
+
+                if (chart) {
+                    chart.destroy();
+                }
+
+                chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Savings',
+                                data: savingsData,
+                                borderColor: '#4caf50',
+                                fill: false
+                            },
+                            {
+                                label: 'Expenses',
+                                data: expenseData,
+                                borderColor: '#f44336',
+                                fill: false
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Date'
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Amount'
+                                },
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            };
+
+            timeFilter.addEventListener('change', () => {
+                const filterValue = timeFilter.value;
+                const today = new Date();
+
+                let filteredData;
+
+                if (filterValue === 'daily') {
+                    filteredData = dataEntries.filter(item => new Date(item.date).toDateString() === today.toDateString());
+                } else if (filterValue === 'weekly') {
+                    const weekAgo = new Date(today);
+                    weekAgo.setDate(today.getDate() - 7);
+                    filteredData = dataEntries.filter(item => new Date(item.date) >= weekAgo);
+                } else if (filterValue === 'monthly') {
+                    filteredData = dataEntries.filter(item => new Date(item.date).getMonth() === today.getMonth());
+                }
+
+                updateTable(filteredData);
+                updateChart(filteredData);
+            });
+
+            updateTable();
+            updateChart();
+        });
+    </script>
+</body>
+</html>

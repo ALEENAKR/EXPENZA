@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Savings</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+            padding: 30px;
+            font-size: 18px;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+            width: 600px;
+            max-width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%; /* Ensure full height for positioning the back button */
+        }
+
+        /* Back Button Style */
+        .back-button {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 6px 12px; /* Smaller size */
+            font-size: 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            align-self: center; /* Center the button horizontally */
+            margin-top: auto; /* Pushes the button to the bottom */
+        }
+
+        .back-button:hover {
+            background-color: #d32f2f;
+        }
+
+        h2 {
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            width: 100%;
+            font-size: 18px;
+        }
+
+        .form-group input {
+            width: 32%;
+            padding: 12px;
+            font-size: 16px;
+            margin-right: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .form-group input:last-child {
+            margin-right: 0;
+        }
+
+        button {
+            padding: 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+            box-sizing: border-box;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        h3 {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            font-size: 18px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        td {
+            background-color: #fafafa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Add Savings</h2>
+        <form id="savings-form">
+            <div class="form-group">
+                <div>
+                    <label for="savings-name">Savings Name:</label>
+                    <input type="text" id="savings-name" placeholder="Enter savings name" required>
+                </div>
+                <div>
+                    <label for="savings-amount">Amount:</label>
+                    <input type="number" id="savings-amount" placeholder="Enter amount" required>
+                </div>
+                <div>
+                    <label for="savings-date">Date:</label>
+                    <input type="date" id="savings-date" required>
+                </div>
+            </div>
+            <button type="submit">Add Savings</button>
+        </form>
+
+        <h3>Savings List</h3>
+        <table id="savings-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be dynamically added here -->
+            </tbody>
+        </table>
+
+        <!-- Back Button at the bottom -->
+        <button class="back-button" onclick="window.history.back()">Back</button>
+    </div>
+
+    <script>
+        // Wait for the DOM to fully load
+        document.addEventListener('DOMContentLoaded', function () {
+            const savingsForm = document.getElementById('savings-form'); // Reference to the savings form
+            const savingsTableBody = document.querySelector('#savings-table tbody'); // Reference to the table body
+
+            // Handle form submission
+            savingsForm.addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent the default form submission behavior (page reload)
+
+                // Get the values from the form inputs
+                const savingsName = document.getElementById('savings-name').value.trim();
+                const savingsAmount = parseFloat(document.getElementById('savings-amount').value.trim());
+                const savingsDate = document.getElementById('savings-date').value;
+
+                // Validate the input values
+                if (savingsName && !isNaN(savingsAmount) && savingsDate) {
+                    // Create a new row element
+                    const newRow = document.createElement('tr');
+
+                    // Create table cells for the savings details
+                    newRow.innerHTML = ` 
+                        <td>${savingsName}</td>
+                        <td>$${savingsAmount.toFixed(2)}</td>
+                        <td>${savingsDate}</td>
+                    `;
+
+                    // Append the new row to the table body
+                    savingsTableBody.appendChild(newRow);
+
+                    // Reset the form inputs
+                    savingsForm.reset();
+                } else {
+                    // Show an alert if the inputs are invalid
+                    alert('Please fill out all fields correctly!');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
