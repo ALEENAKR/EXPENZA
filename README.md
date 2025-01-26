@@ -9,7 +9,7 @@ Member 2: Lekshmi Hari - NSS College of Engineering, Palakkad
 Member 3: Fathima Abdulla - NSS College of Engineering, Palakkad
 
 Hosted Project Link
-[mention your project hosted project link here]
+
 
 Project Description
 A basic expense tracker to track the incomes and expenses of an individual. It provides with a monthly, weekly and daily report graph to manage and maintain expenses.
@@ -25,10 +25,9 @@ Technical Details
 Technologies/Components Used
 For Software:
 
-[Languages used]
-[Frameworks used]
-[Libraries used]
-[Tools used]
+HTML,CSS,Javascrit
+VSCode
+
 For Hardware:
 
 [List main components]
@@ -46,27 +45,19 @@ Run
 Project Documentation
 For Software:
 
-Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name) Add caption explaining what this shows
-
-![Screenshot2](Add screenshot 2 here with proper name) Add caption explaining what this shows
-
-![Screenshot3](Add screenshot 3 here with proper name) Add caption explaining what this shows
+Screenshots
+https://drive.google.com/drive/folders/1zvQyqMqr5sHV_Lj2ZFAa2SjNe-iFu7-U?usp=drive_link)
+Screenshot1 login page
+screenshot 2 home page
+screenshot 3 add expenses
 
 Diagrams
 ![Workflow](Add your workflow/architecture diagram here) Add caption explaining your workflow
 
-For Hardware:
 
-Schematic & Circuit
-![Circuit](Add your circuit diagram here) Add caption explaining connections
-
-![Schematic](Add your schematic diagram here) Add caption explaining the schematic
 
 Build Photos
 ![Team](Add photo of your team here)
-
-![Components](Add photo of your components here) List out all components shown
 
 ![Build](Add photos of build process here) Explain the build steps
 
@@ -74,12 +65,5 @@ Build Photos
 
 Project Demo
 Video
-[Add your demo video link here] Explain what the video demonstrates
 
-Additional Demos
-[Add any extra demo materials/links]
 
-Team Contributions
-[Name 1]: [Specific contributions]
-[Name 2]: [Specific contributions]
-[Name 3]: [Specific contributions]
